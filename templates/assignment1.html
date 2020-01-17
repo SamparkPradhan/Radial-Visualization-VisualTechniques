@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Assigment4</title>
+    <style type="text/css">
+    * {
+    box-sizing: border-box;
+    }
+    .column {
+    float: left;
+    width: 50%;
+    padding: 10px;
+    height: 300px;
+    }
+
+    .row:after {
+    content: "";
+    display: table;
+    clear: both;
+    }
+    </style>
+
+</head>
+<body>
+    <script src="https://d3js.org/d3.v5.min.js"></script>
+    <script src={{ url_for('static', filename='jquery-2.1.4.min.js') }}></script>
+	<script src={{ url_for('static', filename='index.js') }}></script>
+    <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+
+    <div class = "row">
+        <div class = "column">
+
+        <p><a href="{{ url_for('home') }}">Click here to go back!</a></p>
+        <h3> Choose/Change catagorical columns</h3>
+        <select id="selectedField">
+            <option value="salary">salary</option>
+            <option value = 'workclass'>workclass</option>
+            <option value = 'education'>education</option>
+            <option value = 'marital-status'>marital-status</option>
+            <option value = 'occupation'>occupation</option>
+            <option value = 'relationship'>relationship</option>
+            <option value = 'race'>race</option>
+            <option value = 'sex'>sex</option>
+            <option value = 'native-country'>native-country</option>
+        </select>
+        <br>
+        <br><input type="button" value="Visualize Radviz" onclick="changeRadvizAssignment1()"><br>
+
+        <div class="container-fluid">
+            <div id="radviz">
+			    <div class="Dataset" style="font-size: 16px;  font-weight: bold; color: #000000;">
+			    </div>
+    	    </div>
+
+        <script>
+            var tempData = {{ data | safe}}
+            radvizMainfunction(tempData)
+        </script>
+	    </div>
+        </div>
+
+        <div class="column">
+            <div id ="mydiv">
+            </div>
+        </div>
+    </div>
+
+</body>
+</html>

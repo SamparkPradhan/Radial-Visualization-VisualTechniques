@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+	<title>Assignment4</title>
+    <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+    <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.10.2/jquery-ui.min.js"></script>
+
+    <script type="text/javascript" >
+        function populate(s1,s2,s3) {
+            var s1 = document.getElementById(s1);
+            var s2 = document.getElementById(s2);
+            var s3 = document.getElementById(s3);
+            s2.innerHTML = "";
+            if (s1.value == "K-Means"){
+                var optionArray  = ["(default)|(default)","1|1","2|2","3|3","4|4","5|5","6|6","7|7"];
+            }
+            for(var option in optionArray){
+                var pair = optionArray[option].split("|");
+                var newOption = document.createElement("option");
+                newOption.value = pair[0];
+                newOption.innerHTML = pair[1];
+                s2.options.add(newOption);
+            }
+            s3.innerHTML = "";
+            if (s1.value == "K-Means"){
+                var optionArray  = ["(default)|(default)","300|300","400|400"];
+            }
+            for(var option in optionArray){
+                var pair = optionArray[option].split("|");
+                var newOption = document.createElement("option");
+                newOption.value = pair[0];
+                newOption.innerHTML = pair[1];
+                s3.options.add(newOption);
+            }
+
+        }
+    </script>
+    <style type="text/css">
+        * {
+            box-sizing: border-box;
+        }
+        .column {
+  float: left;
+  width: 35%;
+  padding: 10px;
+}
+
+.row:after {
+  content: "";
+  display: table;
+  clear: both;
+}
+
+        #allContents {
+            width: 850px;
+            height: 250px;
+        }
+        .left {
+            width: 40%;
+            height: 200px;
+            float: left;
+        }
+        .right {
+            width: 60%;
+            height: 200px;
+            float: right;
+        }
+        #allButtons{
+            width: 300px;
+            height: 100px;
+            padding-left: 200px;
+        }
+    </style>
+</head>
+
+<body>
+
+	<script src="https://d3js.org/d3.v5.min.js"></script>
+    <script src={{ url_for('static', filename='jquery-2.1.4.min.js') }}></script>
+	<script src={{ url_for('static', filename='index.js') }}></script>
+    <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+
+    <p><a href="{{ url_for('assignment1') }}">Check my Radviz of Assigment1!</a></p>
+    <div class = "row">
+        <div class = "column">
+    <div id = "allContents">
+        <div class="left">
+            <h4> Choose/Change Dataset for Radviz</h4>
+            <select id="selectedFile">
+                <option value="iris">iris</option>
+                <option value="winequality-red">winequality-red</option>
+                <option value="winequality-white">winequality-white</option>
+            </select>
+        </div>
+
+        <div class="right">
+             <h4> Choose/Change K-Means or Class based visualization</h4>
+                 <select id = "cluster" onchange="populate(this.id,'kmeans-cluster','kmeans-iter')">
+                    <option value="Class-Based">Class-Based</option>
+                    <option value = "K-Means">K-Means</option>
+                 </select>
+            <h4> Customize K-Means </h4>
+            Clusters Nos.:
+            <select id="kmeans-cluster">
+            </select>
+            &nbsp;
+            Iterations:
+            <select id="kmeans-iter">
+            </select>
+        </div>
+
+	</div>
+    <div id = "allButtons">
+        <div class = "displayButton">
+            <input type="button" value="Visualize Radviz" onclick="getSelectedMethod()">
+        </div>
+    </div>
+            <h4> Hover over an instance to get the correlation matrix</h4>
+            <div id ="mydiv">
+            </div>
+
+        </div>
+
+
+    <div class="column">
+        <div id="radviz">
+			<div class="Dataset" style="font-size: 16px;  font-weight: bold; color: #000000;">
+			</div>
+    	</div>
+        <script>
+            var tempData = {{ data | safe}}
+            radvizMainfunction(tempData)
+        </script>
+    </div>
+
+
+    </div>
+
+    <script>
+    $(document).ready(function() {
+        function disableBack() { window.history.forward() }
+
+        window.onload = disableBack();
+        window.onpageshow = function(evt) { if (evt.persisted) disableBack() }
+    });
+    </script>
+	
+</body>
+</html>
